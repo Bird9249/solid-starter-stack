@@ -32,7 +32,7 @@ export default () => {
               class="mb-4 sm:mb-5"
             />
             <div class="ml-4">
-              <h2 class="text-gray-900 leading-4 font-bold text-xl flex items-center mb-2 sm:text-2xl">
+              <h2 class="text-gray-900 leading-4 font-bold text-xl flex items-center mb-2 sm:text-2xl dark:text-white">
                 {user()
                   ? `${user()?.data.firstName} ${user()?.data.lastName}`
                   : "... ..."}
@@ -45,26 +45,31 @@ export default () => {
         </div>
 
         <dl>
-          <dt class="text-gray-900 leading-4 font-normal mb-2">
-            Email Address
+          <dt class="text-gray-900 dark:text-white leading-4 font-normal mb-2">
+            ທີ່​ຢູ່​ອີ​ເມວ
           </dt>
-          <dd class="text-gray-500 font-light mb-4 sm:mb-5">
+          <dd class="text-gray-500 dark:text-gray-400 font-light mb-4 sm:mb-5">
             {user() ? user()?.data.email : "..."}
           </dd>
-          <dt class="text-gray-900 leading-4 font-normal mb-2">Email Status</dt>
-          <dd class="text-gray-500 font-light mb-4 sm:mb-5">Verified</dd>
+          <dt class="text-gray-900 dark:text-white leading-4 font-normal mb-2">
+            ສະຖານະອີເມວ
+          </dt>
+          <dd class="text-gray-500 dark:text-gray-400 font-light mb-4 sm:mb-5">
+            ຢັ້ງຢືນແລ້ວ
+          </dd>
         </dl>
       </div>
 
       <div class="p-4 flex items-center">
         <Button
+          class="mr-3"
           color="primary"
           prefixIcon={<EditIcon />}
           onClick={() => {
             navigator(`/users/edit/${param.id}`);
           }}
         >
-          Edit
+          ແກ້ໄຂ
         </Button>
         <Button
           color="danger"
@@ -79,7 +84,7 @@ export default () => {
             );
           }}
         >
-          Delete
+          ລຶບ
         </Button>
       </div>
 

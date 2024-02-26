@@ -24,9 +24,7 @@ export default (props: TableProps) => {
   return (
     <ErrorBoundary fallback={(err, reset) => <>{JSON.stringify(err)}</>}>
       <div class="table-main">
-        <Show when={props.header}>
-          {(header) => <div class="table-header">{header()}</div>}
-        </Show>
+        <Show when={props.header}>{(header) => header()}</Show>
 
         <div class="table-container">
           <TablePlaceholder />
@@ -90,7 +88,7 @@ export default (props: TableProps) => {
           {(value) => (
             <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4">
               <span class="text-sm font-normal text-gray-500 dark:text-gray-400 flex items-center gap-x-1">
-                Rows per page
+                ແຖວຕໍ່ໜ້າ
                 <Select
                   class="w-fit"
                   items={[
@@ -118,7 +116,7 @@ export default (props: TableProps) => {
                       )
                     : ""}
                 </span>
-                of
+                ຂອງ
                 <span class="font-semibold text-gray-900 dark:text-white">
                   {value().data.total}
                 </span>
@@ -136,10 +134,10 @@ export default (props: TableProps) => {
                 }}
               >
                 <Pagination.PrevTrigger class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  Previous
+                  ກັບຄືນ
                 </Pagination.PrevTrigger>
                 <Pagination.NextTrigger class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  Next
+                  ຕໍ່ໄປ
                 </Pagination.NextTrigger>
               </Pagination.Root>
             </nav>

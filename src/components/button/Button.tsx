@@ -27,7 +27,7 @@ export default (props: ButtonProps) => {
       <Show when={props.isLoading} fallback={props.children}>
         <>
           <LoadingIcon class="button-loading" />
-          Loading...
+          ກຳລັງໂຫລດ...
         </>
       </Show>
 

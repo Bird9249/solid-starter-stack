@@ -78,7 +78,7 @@ export const ConfirmProvider: ParentComponent = (props: ParentProps) => {
                 setState("isShow", false);
               }}
             >
-              No, cancel
+              ບໍ່, ຍົກເລີກ
             </Button>
             <Button
               color="danger"
@@ -93,7 +93,7 @@ export const ConfirmProvider: ParentComponent = (props: ParentProps) => {
                 setState("isShow", false);
               }}
             >
-              Yes, I'm sure
+              ແມ່ນແລ້ວ, ຂ້ອຍແນ່ໃຈ
             </Button>
           </div>
         </div>

@@ -27,6 +27,14 @@ const userRoutes: RouteDefinition[] = [
         component: lazy(() => import("./role/Role")),
       },
       {
+        path: "/roles/create",
+        component: lazy(() => import("./role/CreateRole")),
+      },
+      {
+        path: "/roles/edit/:id",
+        component: lazy(() => import("./role/EditRole")),
+      },
+      {
         path: "/permissions",
         component: lazy(() => import("./permission/Permission")),
       },

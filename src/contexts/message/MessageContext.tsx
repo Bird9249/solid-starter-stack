@@ -71,7 +71,7 @@ export const MessageProvider: ParentComponent = (props: ParentProps) => {
               setState("isShowMessage", false);
             }}
           >
-            Continue
+            ສືບຕໍ່
           </Button>
         </div>
       </Modal>

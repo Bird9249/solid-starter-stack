@@ -26,7 +26,10 @@ export default () => {
   async function handlerSubmit(values: LoginForm) {
     try {
       await loginApi(values);
-      actions.showMessage({ level: "success", message: "Login Successfully" });
+      actions.showMessage({
+        level: "success",
+        message: "ເຂົ້າສູ່ລະບົບສຳເລັດແລ້ວ",
+      });
 
       navigate("/dashboard");
     } catch (error) {
@@ -40,7 +43,7 @@ export default () => {
   return (
     <>
       <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-        Sign in to your account
+        ເຂົ້າສູ່ລະບົບບັນຊີຂອງທ່ານ
       </h1>
 
       <Show when={loginForm.response.message}>
@@ -61,11 +64,11 @@ export default () => {
           {(field, props) => (
             <InputText
               {...props}
-              label="Your Username"
+              label="ອີເມວຂອງທ່ານ"
               required
               value={field.value}
               error={field.error}
-              placeholder="username"
+              placeholder="name@company.com"
             />
           )}
         </Field>
@@ -73,7 +76,7 @@ export default () => {
           {(field, props) => (
             <PasswordInput
               {...props}
-              label="Password"
+              label="ລະຫັດຜ່ານ"
               required
               value={field.value}
               error={field.error}
@@ -82,7 +85,7 @@ export default () => {
           )}
         </Field>
         <Button type="submit" class="w-full" isLoading={loginForm.submitting}>
-          Sign in
+          ເຂົ້າ​ສູ່​ລະ​ບົບ
         </Button>
       </Form>
     </>

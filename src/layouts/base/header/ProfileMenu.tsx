@@ -1,5 +1,5 @@
 import { Menu } from "@ark-ui/solid";
-import { useNavigate } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 import Avatar from "../../../components/avatar/Avatar";
 import ArrowIcon from "../../../components/icons/ArrowIcon";
@@ -14,7 +14,7 @@ export default function () {
 
   function logout() {
     confirm?.showConfirm(
-      "Are you sure you want to logout?",
+      "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການອອກຈາກລະບົບ?",
       {
         async onConfirm() {
           localStorage.removeItem("token");
@@ -33,13 +33,14 @@ export default function () {
 
   return (
     <Menu.Root>
-      <Menu.Trigger class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 transition">
+      <Menu.Trigger class="flex mx-3 text-sm pe-2 dark:bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 transition">
         <span class="sr-only">Open user menu</span>
         <Avatar
           src={auth.data?.image}
           alt="User Profile"
           size="sm"
           isLoading={auth.loading}
+          text={auth.data?.firstName ?? "ກຳລັງໂຫຼດ..."}
         />
       </Menu.Trigger>
 
@@ -48,15 +49,15 @@ export default function () {
           <Show
             when={!auth.loading}
             fallback={
-              <div class="w-full py-3 px-4 flex flex-col justify-center items-center">
+              <div class="w-full py-3 px-4 flex flex-col justify-center items-center dark:text-white">
                 <LoadingIcon class="animate-spin w-8 h-8 mb-2" />
-                <p>loading...</p>
+                <p>ກຳລັງໂຫຼດ...</p>
               </div>
             }
           >
             <div class="py-3 px-4">
               <span class="block text-sm font-semibold text-gray-900 dark:text-white">
-                {auth.data?.username}
+                {auth.data?.firstName} {auth.data?.lastName}
               </span>
               <span class="block text-sm text-gray-900 truncate dark:text-white">
                 {auth.data?.email}
@@ -68,12 +69,12 @@ export default function () {
               aria-labelledby="dropdown"
             >
               <li>
-                <a
-                  href="#"
-                  class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                <A
+                  href={`users/detail/${auth.data?.id}`}
+                  class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
-                  My profile
-                </a>
+                  ໂປຣໄຟລ໌ຂອງຂ້ອຍ
+                </A>
               </li>
             </ul>
 
@@ -84,10 +85,10 @@ export default function () {
               <li>
                 <a
                   href="#"
-                  class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600  dark:hover:text-white"
                   onClick={logout}
                 >
-                  Sign out
+                  ອອກ​ຈາກ​ລະ​ບົບ
                 </a>
               </li>
             </ul>

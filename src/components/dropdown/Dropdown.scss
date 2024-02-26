@@ -1,5 +1,5 @@
 .dropdown {
-  @apply z-10 bg-white divide-y divide-gray-100 rounded-lg shadow min-w-44 w-full dark:bg-gray-700;
+  @apply z-10 bg-white divide-y divide-gray-100 rounded-lg shadow min-w-44 w-full dark:bg-gray-700 dark:divide-gray-600;
 
   &-content {
     @apply py-2 text-sm text-gray-700 dark:text-gray-200;

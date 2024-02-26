@@ -16,7 +16,7 @@
   @apply text-gray-900 bg-primary-100 dark:bg-primary-700 dark:text-white;
 
   svg {
-    @apply text-primary-500 dark:text-primary-400;
+    @apply text-primary-700 dark:text-white;
   }
 
   &:hover {
@@ -45,9 +45,23 @@
 }
 
 .sidebar-submenu-active {
-  @apply text-primary-600 dark:text-primary-100;
+  @apply text-primary-700 dark:text-primary-500;
 
   &:hover {
-    @apply bg-primary-100;
+    @apply bg-primary-100 dark:bg-gray-700;
   }
+}
+
+
+ ::-webkit-scrollbar {
+  width: 8px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
 }

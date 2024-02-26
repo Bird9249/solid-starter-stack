@@ -1,7 +1,7 @@
 import { A } from "@solidjs/router";
 import { For, JSXElement, Match, Switch } from "solid-js";
 import { createStore } from "solid-js/store";
-import SearchIcon from "../../../components/icons/SearchIcon";
+import HomeIcon from "../../../components/icons/HomeIcon";
 import UserIcon from "../../../components/icons/UserIcon";
 import SidebarMenu from "./SidebarMenu";
 
@@ -23,14 +23,19 @@ export default function () {
   }>({
     menus: [
       {
-        icon: <UserIcon iconDirection="users" />,
+        icon: <HomeIcon />,
+        href: "/dashboard",
+        label: "ໜ້າຫຼັກ",
+      },
+      {
+        icon: <UserIcon />,
         href: "/users",
-        label: "Users",
+        label: "ຈັດການຜູ້ໃຊ້",
         subMenus: {
           menus: [
-            { href: "/users/list", label: "User" },
-            { href: "/users/roles", label: "Role" },
-            { href: "/users/permissions", label: "Permission" },
+            { href: "/users/list", label: "ຜູ້ໃຊ້" },
+            { href: "/users/roles", label: "ບົດບາດ" },
+            { href: "/users/permissions", label: "ການອະນຸຍາດ" },
           ],
           isOpen: false,
         },
@@ -45,13 +50,13 @@ export default function () {
       id="drawer-navigation"
     >
       <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
-        <form action="#" class="md:hidden mb-2">
+        {/* <form action="#" class="md:hidden mb-2">
           <label for="sidebar-search" class="sr-only">
             Search
           </label>
           <div class="relative">
             <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-              <SearchIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+              <SearchIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />p
             </div>
             <input
               type="text"
@@ -61,7 +66,7 @@ export default function () {
               placeholder="ຄົ້ນຫາ"
             />
           </div>
-        </form>
+        </form> */}
 
         <ul class="space-y-2">
           <For each={sidebarMenus.menus}>

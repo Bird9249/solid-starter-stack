@@ -5,21 +5,22 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/flowbite/**/*.js" 
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         primary:  { 
-          50: "#fef2f2",
-          100: "#ffe1e2",
-          200: "#ffc9cb",
-          300: "#fea3a6",
-          400: "#fb6e73",
-          500: "#f34046",
-          600: "#e01f26",
-          700: "#bd181e",
-          800: "#9c181d",
-          900: "#811b1f",
-          950: "#46090b"
+          50: "#EEFFF5",
+          100: "#D8FFEB",
+          200: "#B4FED8",
+          300: "#79FCBA",
+          400: "#38F094",
+          500: "#0ED974",
+          600: "#05B45D",
+          700: "#088D4C",
+          800: "#0C6F3F",
+          900: "#0c5b36",
+          950: "#00331c"
         }
       },
       keyframes: {
