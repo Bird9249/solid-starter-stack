@@ -1,14 +1,18 @@
 import { A, useLocation } from "@solidjs/router";
-import { For, JSX, ParentProps, createEffect, createMemo } from "solid-js";
-import { Dynamic } from "solid-js/web";
-import AngleDownIcon from "../../../components/icons/AngleDownIcon";
+import {
+  For,
+  JSXElement,
+  ParentProps,
+  createEffect,
+  createMemo,
+} from "solid-js";
+import AngleDownIcon from "../../../components/icons/AngleIcon";
 
 export default (
   props: ParentProps<{
-    icon: (
-      props: ParentProps<JSX.SvgSVGAttributes<SVGSVGElement>>
-    ) => JSX.Element;
+    icon: JSXElement;
     label: string;
+    path: string;
     menus: { href: string; label: string }[];
     isOpen: boolean;
     onChange: () => void;
@@ -43,25 +47,22 @@ export default (
         type="button"
         class="flex items-center p-2 w-full text-base font-medium rounded-lg transition "
         classList={{
-          "sidebar-active": props.menus
-            .map(({ href }) => href)
-            .includes(pathname()),
-          "sidebar-inactive": !props.menus
-            .map(({ href }) => href)
-            .includes(pathname()),
+          "sidebar-active": pathname().startsWith(props.path),
+          "sidebar-inactive": !pathname().startsWith(props.path),
         }}
         onClick={() => {
           props.onChange();
         }}
       >
-        <Dynamic
-          component={props.icon}
-          class="flex-shrink-0 w-6 h-6 transition"
-        />
+        <span class="flex-shrink-0 w-6 h-6 transition">{props.icon}</span>
         <span class="flex-1 ml-3 text-left whitespace-nowrap">
           {props.label}
         </span>
-        <AngleDownIcon ref={angleIcon} class="w-6 h-6 transition " />
+        <AngleDownIcon
+          iconDirection="down"
+          ref={angleIcon}
+          class="w-6 h-6 transition "
+        />
       </button>
 
       <ul ref={dropdown} class="py-2 space-y-2 ">

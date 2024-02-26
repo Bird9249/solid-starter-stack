@@ -94,6 +94,8 @@ module.exports = {
         "Poppins",
       ],
       sans: [
+        "Noto Sans Lao",
+        "Poppins",
         "sans-serif",
       ],
     },

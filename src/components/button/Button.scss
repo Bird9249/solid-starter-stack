@@ -1,11 +1,25 @@
 .button {
-  @apply transition focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none inline-flex items-center;
+  @apply transition focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none inline-flex items-center justify-center;
 
   &-primary {
-    @apply text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800;
+    @apply text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800; 
+    
 
     svg {
       @apply text-white;
+    }
+
+    &-outline {
+      @apply  text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-900;
+    
+      &:hover {
+        @apply text-white bg-primary-800 hover:text-white hover:bg-primary-600;
+
+        svg {
+          @apply text-white dark:text-white
+        }
+      }
+     
     }
   }
 
@@ -30,6 +44,18 @@
 
     &:hover {
       @apply bg-red-800 dark:bg-red-700;
+    }
+
+    &-outline {
+      @apply  text-red-700 border border-red-700 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:focus:ring-red-900;
+    
+      &:hover {
+        @apply text-white bg-red-800 hover:text-white hover:bg-red-600;
+
+        svg {
+          @apply text-white dark:text-white
+        }
+      }
     }
   }
 

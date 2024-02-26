@@ -1,171 +1,151 @@
-import { For, JSX, ParentProps, Show } from "solid-js";
+import { Pagination } from "@ark-ui/solid";
+import { ErrorBoundary, For, Show, createEffect } from "solid-js";
 import { createStore } from "solid-js/store";
-import "./Table.scss";
-import TableBody from "./TableBody";
-import TableHeader, { HeaderState, TableHeaderProps } from "./TableHeader";
+import { Dynamic } from "solid-js/web";
+import { Transition } from "solid-transition-group";
+import { fadeIn, fadeOut } from "../../utils/transition-animation";
+import Select from "../forms/select/Select";
+import LoadingIcon from "../icons/LoadingIcon";
+import { TableProps, TableState } from "./Table.interface";
+import TablePlaceholder from "./TablePlaceholder";
+import Column from "./column/Column";
 
-interface TableProps {
-  header?: JSX.Element;
-  tableHeaders: TableHeaderProps[];
-  data: any[];
-  onChange?: (state: TableState) => void;
-}
+export default (props: TableProps) => {
+  const [table, setTable] = createStore<TableState>({
+    paginate: { offset: 0, limit: 10 },
+  });
 
-interface TableState {
-  order: HeaderState[];
-}
-
-export default (props: ParentProps<TableProps>) => {
-  const [table, setTable] = createStore<{ state: TableState }>({
-    state: { order: [] },
+  createEffect(() => {
+    table.paginate.limit;
+    table.paginate.offset;
+    props.onChange(table);
   });
 
   return (
-    <div class="table">
-      <Show when={props.header}>
-        <div class="table-header">{props.header}</div>
-      </Show>
+    <ErrorBoundary fallback={(err, reset) => <>{JSON.stringify(err)}</>}>
+      <div class="table-main">
+        <Show when={props.header}>
+          {(header) => <div class="table-header">{header()}</div>}
+        </Show>
 
-      <div class="table-container">
-        <table class="table-content">
-          <thead class="table-thead">
-            <tr>
-              <For each={props.tableHeaders}>
-                {(column, idx) => (
-                  <TableHeader
-                    {...column}
-                    onSort={(sort) => {
-                      setTable("state", "order", idx(), () => sort);
+        <div class="table-container">
+          <TablePlaceholder />
 
-                      if (props.onChange) props.onChange(table.state);
-                    }}
-                  />
+          <table class="table-content">
+            <thead class="table-thead">
+              <tr>
+                <For each={props.children}>
+                  {(childProps) => (
+                    <Dynamic component={Column} {...childProps} />
+                  )}
+                </For>
+              </tr>
+            </thead>
+
+            <tbody>
+              <Show
+                when={props.value()}
+                fallback={<tr style={{ height: "540px" }}></tr>}
+              >
+                {(value) => (
+                  <Show
+                    when={value().data[props.responseField].length > 0}
+                    fallback={<tr id="empty-row"></tr>}
+                  >
+                    <For each={value().data[props.responseField]}>
+                      {(value) => (
+                        <tr class="table-tbody">
+                          <For each={props.children}>
+                            {(childProps) => (
+                              <td class="px-4 py-3">
+                                {childProps.body
+                                  ? childProps.body(value)
+                                  : undefined}
+                              </td>
+                            )}
+                          </For>
+                        </tr>
+                      )}
+                    </For>
+                  </Show>
                 )}
-              </For>
-            </tr>
-          </thead>
-          
-          <tbody>
-            <For each={props.data}>
-              {(data, dataIdx) => (
-                <tr class="table-tbody">
-                  <For each={props.tableHeaders}>
-                    {(column, headerIdx) => (
-                      // <>{data[column.key]}</>
-                      <TableBody
-                        data={data[column.key]}
-                        isTh={headerIdx() === 0}
-                      />
-                    )}
-                  </For>
-                </tr>
-              )}
-            </For>
-          </tbody>
-        </table>
+              </Show>
+            </tbody>
+          </table>
+        </div>
 
-        <nav
-          class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-          aria-label="Table navigation"
-        >
-          <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing{" "}
-            <span class="font-semibold text-gray-900 dark:text-white">
-              1-10{" "}
-            </span>
-            of{" "}
-            <span class="font-semibold text-gray-900 dark:text-white">
-              1000
-            </span>
-          </span>
+        <Transition onEnter={fadeIn} onExit={fadeOut}>
+          <Show when={props.value.loading}>
+            <div
+              class={`absolute z-10 top-0 left-0 bg-black/50 w-full h-full flex items-center justify-center`}
+            >
+              <div>
+                <LoadingIcon class="animate-spin w-8 h-8" />
+              </div>
+            </div>
+          </Show>
+        </Transition>
 
-          <ul class="inline-flex items-stretch -space-x-px">
-            <li>
-              <a
-                href="#"
-                class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        <Show when={props.value()}>
+          {(value) => (
+            <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4">
+              <span class="text-sm font-normal text-gray-500 dark:text-gray-400 flex items-center gap-x-1">
+                Rows per page
+                <Select
+                  class="w-fit"
+                  items={[
+                    { label: "10", value: "10" },
+                    { label: "25", value: "25" },
+                    { label: "50", value: "50" },
+                    { label: "100", value: "100" },
+                  ]}
+                  value={["10"]}
+                  size="sm"
+                  contentClass="w-fit"
+                  onValueChange={({ value }) => {
+                    setTable("paginate", (prev) => ({
+                      ...prev,
+                      limit: Number(value[0]),
+                    }));
+                  }}
+                />
+                <span class="font-semibold text-gray-900 dark:text-white">
+                  {table.paginate.offset + 1}-
+                  {value().data.total
+                    ? Math.min(
+                        table.paginate.offset + table.paginate.limit,
+                        value().data.total
+                      )
+                    : ""}
+                </span>
+                of
+                <span class="font-semibold text-gray-900 dark:text-white">
+                  {value().data.total}
+                </span>
+              </span>
+
+              <Pagination.Root
+                class="inline-flex -space-x-px text-sm"
+                count={value().data.total}
+                pageSize={table.paginate.limit}
+                onPageChange={({ pageSize, page }) => {
+                  setTable("paginate", () => ({
+                    offset: (page - 1) * pageSize,
+                    limit: pageSize,
+                  }));
+                }}
               >
-                <span class="sr-only">Previous</span>
-                <svg
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                1
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                2
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                aria-current="page"
-                class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-              >
-                3
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                ...
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                100
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                <span class="sr-only">Next</span>
-                <svg
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </a>
-            </li>
-          </ul>
-        </nav>
+                <Pagination.PrevTrigger class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  Previous
+                </Pagination.PrevTrigger>
+                <Pagination.NextTrigger class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  Next
+                </Pagination.NextTrigger>
+              </Pagination.Root>
+            </nav>
+          )}
+        </Show>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 };

@@ -2,7 +2,6 @@ import { Dialog, DialogRootProps } from "@ark-ui/solid";
 import { JSX, ParentProps, Show } from "solid-js";
 import { Portal } from "solid-js/web";
 import CloseIcon from "../icons/CloseIcon";
-import "./Modal.scss";
 
 interface DialogProps extends ParentProps<DialogRootProps> {
   header?: string;
@@ -23,7 +22,7 @@ export default (props: DialogProps) => {
                 <div class="modal-header">
                   <h3 class="modal-header-title">{props.header}</h3>
                   <Dialog.CloseTrigger class="modal-header-close-icon">
-                    <CloseIcon class="w-3 h-3" aria-hidden="true" />
+                    <CloseIcon class="w-6 h-6" aria-hidden="true" />
                     <span class="sr-only">Close modal</span>
                   </Dialog.CloseTrigger>
                 </div>
@@ -31,7 +30,7 @@ export default (props: DialogProps) => {
 
               <Show when={props.close}>
                 <Dialog.CloseTrigger class="modal-close-icon">
-                  <CloseIcon class="w-3 h-3" aria-hidden="true" />
+                  <CloseIcon class="w-6 h-6" aria-hidden="true" />
                   <span class="sr-only">Close modal</span>
                 </Dialog.CloseTrigger>
               </Show>

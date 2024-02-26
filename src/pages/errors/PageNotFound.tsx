@@ -1,3 +1,3 @@
 export default () => {
-  return <div class=""></div>;
+  return <div class="">not</div>;
 };

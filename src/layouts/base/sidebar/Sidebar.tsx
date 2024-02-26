@@ -1,16 +1,12 @@
 import { A } from "@solidjs/router";
-import { For, JSX, Match, ParentProps, Switch } from "solid-js";
+import { For, JSXElement, Match, Switch } from "solid-js";
 import { createStore } from "solid-js/store";
-import { Dynamic } from "solid-js/web";
-import ChartPieIcon from "../../../components/icons/ChartPieIcon";
-import FileLinesIcon from "../../../components/icons/FileLinesIcon";
 import SearchIcon from "../../../components/icons/SearchIcon";
+import UserIcon from "../../../components/icons/UserIcon";
 import SidebarMenu from "./SidebarMenu";
 
 interface SidebarMenuType {
-  icon: (
-    props: ParentProps<JSX.SvgSVGAttributes<SVGSVGElement>>
-  ) => JSX.Element;
+  icon: JSXElement;
   href: string;
   label: string;
   subMenus?: SidebarSubMenuType;
@@ -27,18 +23,14 @@ export default function () {
   }>({
     menus: [
       {
-        icon: ChartPieIcon,
-        href: "/dashboard",
-        label: "Overview",
-      },
-      {
-        icon: FileLinesIcon,
-        href: "#",
-        label: "Pages",
+        icon: <UserIcon iconDirection="users" />,
+        href: "/users",
+        label: "Users",
         subMenus: {
           menus: [
-            { href: "/setting", label: "Settings" },
-            { href: "/calendar", label: "Calendar" },
+            { href: "/users/list", label: "User" },
+            { href: "/users/roles", label: "Role" },
+            { href: "/users/permissions", label: "Permission" },
           ],
           isOpen: false,
         },
@@ -83,7 +75,7 @@ export default function () {
                       activeClass="sidebar-active"
                       inactiveClass="sidebar-inactive"
                     >
-                      <Dynamic component={icon} class="w-6 h-6 transition" />
+                      <span class="w-6 h-6 transition">{icon}</span>
                       <span class="ml-3">{label}</span>
                     </A>
                   </li>
@@ -91,6 +83,7 @@ export default function () {
 
                 <Match when={subMenus}>
                   <SidebarMenu
+                    path={href}
                     menus={(subMenus as SidebarSubMenuType).menus}
                     isOpen={(subMenus as SidebarSubMenuType).isOpen}
                     icon={icon}
