@@ -25,7 +25,7 @@ export default () => {
   const [, actionMessage] = useMessage();
   const auth = useAuth();
 
-  if (!checkPermission(Permission.Read, PermissionGroup.User, auth.permissions))
+  if (!checkPermission(Permission.Read, PermissionGroup.User, auth))
     navigate(-1);
 
   const [state, setState] = createSignal<UserTableState>({
@@ -41,9 +41,7 @@ export default () => {
       onClick: () => void;
     }[][] = [[]];
 
-    if (
-      checkPermission(Permission.Read, PermissionGroup.User, auth.permissions)
-    )
+    if (checkPermission(Permission.Read, PermissionGroup.User, auth))
       menus[0].push({
         onClick() {
           navigate(`/users/detail/${id}`);
@@ -51,9 +49,7 @@ export default () => {
         label: "ລາຍລະອຽດ",
       });
 
-    if (
-      checkPermission(Permission.Write, PermissionGroup.User, auth.permissions)
-    )
+    if (checkPermission(Permission.Write, PermissionGroup.User, auth))
       menus[0].push({
         onClick() {
           navigate(`/users/edit/${id}`);
@@ -61,9 +57,7 @@ export default () => {
         label: "ແກ້ໄຂ",
       });
 
-    if (
-      checkPermission(Permission.Remove, PermissionGroup.User, auth.permissions)
-    ) {
+    if (checkPermission(Permission.Remove, PermissionGroup.User, auth)) {
       menus.push([]);
 
       menus[1].push({
@@ -100,14 +94,7 @@ export default () => {
             ຜູ້ໃຊ້ທັງໝົດ
           </h2>
           <Show
-            when={
-              auth &&
-              checkPermission(
-                Permission.Write,
-                PermissionGroup.User,
-                auth.permissions
-              )
-            }
+            when={checkPermission(Permission.Write, PermissionGroup.User, auth)}
           >
             <Button
               class="w-full sm:w-fit"
@@ -139,7 +126,9 @@ export default () => {
           }: UserResponse) => (
             <div class="flex items-center">
               <Avatar
-                src={import.meta.env.VITE_BASE_API_URL + image}
+                src={
+                  image ? import.meta.env.VITE_BASE_API_URL + image : undefined
+                }
                 alt="image"
                 size="sm"
                 class="mr-3"
@@ -163,13 +152,8 @@ export default () => {
           ),
         },
         {
-          header: "ສະຖານະ",
-          body: () => (
-            <div class="flex items-center">
-              <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-              Online
-            </div>
-          ),
+          header: "ອີເມວ",
+          body: ({ email }: UserResponse) => email,
         },
         {
           header: "ເຂົ້າລະບົບລ່າສຸດ",

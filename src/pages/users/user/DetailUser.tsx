@@ -26,9 +26,6 @@ export default () => {
   const [, actionMessage] = useMessage();
   const auth = useAuth();
 
-  if (!checkPermission(Permission.Read, PermissionGroup.User, auth.permissions))
-    navigator(-1);
-
   const [id] = createSignal<string>(param.id);
 
   const [user] = createResource(id, getUserDetailApi);
@@ -44,7 +41,10 @@ export default () => {
               }`}
               size="xl"
               src={
-                import.meta.env.VITE_BASE_API_URL + user()?.data.profile.image
+                user()?.data.profile.image
+                  ? import.meta.env.VITE_BASE_API_URL +
+                    user()?.data.profile.image
+                  : undefined
               }
               isLoading={user.loading}
               class="mb-4 sm:mb-5"
@@ -101,11 +101,7 @@ export default () => {
 
       <div class="p-4 flex items-center">
         <Show
-          when={checkPermission(
-            Permission.Write,
-            PermissionGroup.User,
-            auth.permissions
-          )}
+          when={checkPermission(Permission.Write, PermissionGroup.User, auth)}
         >
           <Button
             class="mr-3"
@@ -120,11 +116,7 @@ export default () => {
         </Show>
 
         <Show
-          when={checkPermission(
-            Permission.Remove,
-            PermissionGroup.User,
-            auth.permissions
-          )}
+          when={checkPermission(Permission.Remove, PermissionGroup.User, auth)}
         >
           <Button
             color="danger"

@@ -23,7 +23,7 @@ export default () => {
   const [, actionMessage] = useMessage();
   const auth = useAuth();
 
-  if (!checkPermission(Permission.Read, PermissionGroup.User, auth.permissions))
+  if (!checkPermission(Permission.Read, PermissionGroup.User, auth))
     navigate(-1);
 
   const [state, setState] = createSignal<RoleTableState>({
@@ -41,11 +41,7 @@ export default () => {
             ບົດບາດທັງຫມົດ
           </h2>
           <Show
-            when={checkPermission(
-              Permission.Write,
-              PermissionGroup.User,
-              auth.permissions
-            )}
+            when={checkPermission(Permission.Write, PermissionGroup.User, auth)}
           >
             <Button
               class="w-full sm:w-fit"
@@ -103,7 +99,7 @@ export default () => {
                 when={checkPermission(
                   Permission.Write,
                   PermissionGroup.User,
-                  auth.permissions
+                  auth
                 )}
               >
                 <A
@@ -118,7 +114,7 @@ export default () => {
                 when={checkPermission(
                   Permission.Remove,
                   PermissionGroup.User,
-                  auth.permissions
+                  auth
                 )}
               >
                 <a

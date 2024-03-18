@@ -1,4 +1,4 @@
-import { Input, array, maxLength, minLength, object, string } from "valibot";
+import { Output, array, maxLength, minLength, object, string } from "valibot";
 
 export const RoleSchema = object({
   name: string([
@@ -12,4 +12,4 @@ export const RoleSchema = object({
   permissions: array(string()),
 });
 
-export type RoleForm = Input<typeof RoleSchema>;
+export type RoleForm = Output<typeof RoleSchema>;

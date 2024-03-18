@@ -33,7 +33,7 @@ export const AuthProvider: ParentComponent = (props: ParentProps) => {
           {props.children}
         </AuthContext.Provider>
       )}
-  </Show>
+    </Show>
   );
 };
 

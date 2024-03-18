@@ -38,9 +38,7 @@ export default () => {
   const [, actionConfirm] = useConfirm();
   const auth = useAuth();
 
-  if (
-    !checkPermission(Permission.Write, PermissionGroup.User, auth.permissions)
-  )
+  if (!checkPermission(Permission.Write, PermissionGroup.User, auth))
     navigator(-1);
 
   const [role] = createResource(param.id, getRoleDetailApi);

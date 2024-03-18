@@ -1,6 +1,5 @@
 import { RouteSectionProps } from "@solidjs/router";
-import { initDrawers } from "flowbite";
-import { For, Show, onMount } from "solid-js";
+import { For, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { Transition } from "solid-transition-group";
 import CloseIcon from "../../components/icons/CloseIcon";
@@ -17,10 +16,6 @@ export default (props: RouteSectionProps) => {
     message?: string;
     errors?: string[];
   }>();
-
-  onMount(() => {
-    initDrawers();
-  });
 
   return (
     <AxiosProvider

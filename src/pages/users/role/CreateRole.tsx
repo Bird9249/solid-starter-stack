@@ -33,9 +33,7 @@ export default () => {
   const navigator = useNavigate();
   const auth = useAuth();
 
-  if (
-    !checkPermission(Permission.Write, PermissionGroup.User, auth.permissions)
-  )
+  if (!checkPermission(Permission.Write, PermissionGroup.User, auth))
     navigator(-1);
 
   const [permissions] = createResource(getPermissionApi);

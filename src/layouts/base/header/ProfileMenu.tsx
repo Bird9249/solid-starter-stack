@@ -3,7 +3,7 @@ import { A, useNavigate } from "@solidjs/router";
 import Avatar from "../../../components/avatar/Avatar";
 import ArrowIcon from "../../../components/icons/ArrowIcon";
 import { useAuth } from "../../../contexts/authentication/AuthContext";
-import logoutApi from "../../../contexts/authentication/logout..api";
+import logoutApi from "../../../contexts/authentication/logout.api";
 import { useConfirm } from "../../../contexts/confirm/ConfirmContext";
 import { useMessage } from "../../../contexts/message/MessageContext";
 
@@ -42,9 +42,14 @@ export default function () {
       <Menu.Trigger class="flex mx-3 text-sm pe-2 dark:bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 transition">
         <span class="sr-only">Open user menu</span>
         <Avatar
-          src={`${
-            (import.meta.env.VITE_BASE_API_URL as string) + auth.profile.image
-          }`}
+          src={
+            auth.profile.image
+              ? `${
+                  (import.meta.env.VITE_BASE_API_URL as string) +
+                  auth.profile.image
+                }`
+              : undefined
+          }
           alt="User Profile"
           size="sm"
           text={auth.profile.first_name}

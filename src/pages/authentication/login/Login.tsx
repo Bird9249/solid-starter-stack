@@ -18,8 +18,8 @@ export default () => {
   const [loginForm, { Form, Field }] = createForm<LoginForm>({
     validate: valiForm(LoginSchema),
     initialValues: {
-      email: "lkp95680383@gmail.com",
-      password: "Bird9249",
+      email: "dev@gmail.com",
+      password: "devPassword",
     },
   });
 

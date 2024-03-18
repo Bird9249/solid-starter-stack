@@ -45,9 +45,7 @@ export default () => {
   const navigator = useNavigate();
   const auth = useAuth();
 
-  if (
-    !checkPermission(Permission.Write, PermissionGroup.User, auth.permissions)
-  )
+  if (!checkPermission(Permission.Write, PermissionGroup.User, auth))
     navigator(-1);
 
   const [id] = createSignal<string>(param.id);
@@ -95,7 +93,9 @@ export default () => {
             confirmPassword: undefined,
           });
           setPreviewImg(
-            import.meta.env.VITE_BASE_API_URL + input.data.profile.image
+            input.data.profile.image
+              ? import.meta.env.VITE_BASE_API_URL + input.data.profile.image
+              : ""
           );
         }
       }
@@ -128,13 +128,13 @@ export default () => {
               label="ອັບໂຫລດໄຟລ໌"
               {...props}
               error={field.error}
-              helpMessage="SVG, PNG, JPG ຫຼື GIF (MAX. 800x400px)."
+              helpMessage="SVG, PNG, JPG ຫຼື GIF (MAX. 400x400px)."
               previewImage={
                 <Avatar
                   alt="preview"
                   class="mb-4 sm:mb-0 mr-4 "
                   size="lg"
-                  src={previewImg()}
+                  src={previewImg() ? previewImg() : undefined}
                 />
               }
               onSelectFile={(files) => {

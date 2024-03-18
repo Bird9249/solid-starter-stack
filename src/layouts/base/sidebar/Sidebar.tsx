@@ -1,5 +1,13 @@
 import { A } from "@solidjs/router";
-import { For, JSXElement, Match, Switch, createEffect } from "solid-js";
+import { initDrawers } from "flowbite";
+import {
+  For,
+  JSXElement,
+  Match,
+  Switch,
+  createEffect,
+  onMount,
+} from "solid-js";
 import { createStore } from "solid-js/store";
 import { PermissionGroup } from "../../../common/enum/permission.enum";
 import checkPermissionGroup from "../../../common/utils/check-permission-group";
@@ -38,7 +46,7 @@ export default function () {
   createEffect(() => {
     const preparedMenus: SidebarMenuType[] = [];
 
-    if (checkPermissionGroup(PermissionGroup.User, auth.permissions)) {
+    if (checkPermissionGroup(PermissionGroup.User, auth)) {
       preparedMenus.push({
         icon: <UserIcon />,
         href: "/users",
@@ -55,6 +63,10 @@ export default function () {
     }
 
     setSidebarMenus("menus", (prev) => [...prev, ...preparedMenus]);
+  });
+
+  onMount(() => {
+    initDrawers();
   });
 
   return (

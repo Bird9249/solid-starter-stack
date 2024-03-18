@@ -11,5 +11,5 @@ export default async (id: string, form: RoleForm) => {
 
   delete data.permissions;
 
-  return axios.put<{ message: string }>(`/roles/${id}`, data);
+  return await axios.put<{ message: string }>(`/roles/${id}`, data);
 };

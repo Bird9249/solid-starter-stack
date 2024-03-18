@@ -33,5 +33,5 @@ export type UserResponse = {
 };
 
 export interface UsersResponse extends IPaginated {
-  users: UserResponse;
+  users: UserResponse[];
 }
